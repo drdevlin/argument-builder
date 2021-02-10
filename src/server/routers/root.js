@@ -1,4 +1,9 @@
 const express = require('express');
-const root = express.Router();
+const router = express.Router();
 
-module.exports = root;
+// Mount routers
+const users = require('./users.js');
+
+router.use('/users', users);
+
+module.exports = router;
