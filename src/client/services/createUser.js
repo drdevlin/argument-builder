@@ -4,9 +4,9 @@ const createUser = async (user) => {
       method: 'POST',
       body: JSON.stringify(user)
     });
-    return response;
+    return { success: true, message: response };
   } catch(error) {
-    return error.message;
+    return { success: false, message: error.message };
   }
 }
 
