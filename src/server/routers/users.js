@@ -5,10 +5,10 @@ const router = express.Router();
 const { sendResponse } = require('../services/generic.js');
 
 // Import router's services
-const {} = require('../services/users.js');
+const { createNewUser } = require('../services/users.js');
 
 // C
-router.post('/', sendResponse);
+router.post('/', createNewUser, sendResponse);
 
 // R
 
