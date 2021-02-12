@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import createUser from '../../services/createUser';
 // import './Signup.css';
 
 const Signup = () => {
@@ -8,14 +9,6 @@ const Signup = () => {
     confirmPassword: ''
   });
   const { email, password, confirmPassword } = fields;
-
-  // const isValid = () => {
-  //   return (
-  //     password === confirmPassword &&
-  //     email &&
-  //     password
-  //   );
-  // }
   
   const handleFieldChange = event => {
     const name = event.target.name;
@@ -23,10 +16,10 @@ const Signup = () => {
     setFields({ ...fields, [name]: value });
   }
 
-  const handleSubmit = event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const isValid = event.target.checkValidity() && password === confirmPassword;
-    if (isValid) console.log('Valid!');
+    if (isValid) await createUser({ email, password });
   }
 
   return (
@@ -40,6 +33,7 @@ const Signup = () => {
         <input type='password' id='confirm' name='confirmPassword' value={confirmPassword} onChange={handleFieldChange} pattern='.{8,}' required />
         <button type='submit' value='submit'>Signup</button>
       </form>
+      <p>{fields.test}</p>
     </div>
   )
 }

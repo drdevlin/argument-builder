@@ -2,8 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import Signup from './Signup';
 
 describe('<Signup />', () => {
-  it('renders', () => {
-    render(<Signup />);
+  it('renders', async () => {
+    await render(<Signup />);
     const email = screen.getByLabelText(/email/i);
     const password = screen.getAllByLabelText(/password/i)[0];
     const confirm = screen.getByLabelText(/confirm/i);
