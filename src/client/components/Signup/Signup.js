@@ -9,6 +9,7 @@ const Signup = () => {
     confirmPassword: ''
   });
   const { email, password, confirmPassword } = fields;
+  const [ feedback, setFeedback ] = useState('');
   
   const handleFieldChange = event => {
     const name = event.target.name;
@@ -18,8 +19,15 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const isValid = event.target.checkValidity() && password === confirmPassword;
-    if (isValid) await createUser({ email, password });
+    const isValid = event.target.checkValidity();
+    if (!isValid) setFeedback('Invalid email or password');
+    const isConfirmed = password === confirmPassword;
+    if (!isConfirmed) setFeedback("Passwords don't match");
+    const canSubmit = isValid && isConfirmed;
+    if (canSubmit) {
+      const response = await createUser({ email, password });
+      setFeedback(response.statusText);
+    }
   }
 
   return (
@@ -33,7 +41,7 @@ const Signup = () => {
         <input type='password' id='confirm' name='confirmPassword' value={confirmPassword} onChange={handleFieldChange} pattern='.{8,}' required />
         <button type='submit' value='submit'>Signup</button>
       </form>
-      <p>{fields.test}</p>
+      <p>{feedback}</p>
     </div>
   )
 }
