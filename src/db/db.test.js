@@ -20,7 +20,7 @@ describe('db', () => {
   describe('read(table, conditions)', () => {
     it('returns all columns under the specified conditions', async () => {
       const expectedResults = [{ email: 'foo@bar.com', password: 'baz' }];
-      const actualResults = await db.read('users', "email = 'foo@bar.com'");
+      const actualResults = await db.read('users', { email: 'foo@bar.com' });
       expect(actualResults.rows).toMatchObject(expectedResults);
     });
   });

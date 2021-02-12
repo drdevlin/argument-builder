@@ -18,9 +18,12 @@ const create = (table, rows) => {
   
 };
 
-const read = (table, conditions = '') => {
+const read = (table, rowIdentifier) => {
   if (table) {
-    const conditionStatement = ` WHERE ${conditions}`;
+    let [ identifierKey, identifierValue ] = Object.entries(rowIdentifier)[0];
+    if (typeof identifierValue === 'string') identifierValue = `'${identifierValue}'`;
+    const conditionStatement = ` WHERE ${identifierKey} = ${identifierValue}`;
+
     return new Promise(resolve => resolve(pool.query(`SELECT * FROM ${table}${conditionStatement}`)));
   } else {
     return Promise.reject('Faulty call to function');
