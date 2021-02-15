@@ -6,7 +6,6 @@ const createUser = async (user) => {
     user.id = uuid();
     const securePassword = await encrypted(user.password).forStorage;
     user.password = securePassword;
-    console.log(user);
 
     const response = await fetch('http://localhost:4545/auth', { 
       method: 'POST',
