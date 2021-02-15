@@ -1,19 +1,27 @@
 require('./env-config.js')();
 const { Pool } = require('pg');
-const schemas = require('./schemas.js');
+//const schemas = require('./schemas.js');
 
 const pool = new Pool();
 
 const create = (table, rows) => {
   if (table && rows) {
-    const schemaKeys = Object.keys(schemas[table]);
-    const columns = '(' + schemaKeys.join(', ') + ')';
-    const numberOfColumns = schemaKeys.map((key, index) => index + 1);
-    const valueVariables = '($' + numberOfColumns.join(', $') + ')';
-
-    const rowsValues = rows.map(row => Object.values(row));
-
-    return Promise.all(rowsValues.map(values => pool.query(`INSERT INTO ${table} ${columns} VALUES ${valueVariables}`, values)));
+    const queries = rows.map(row => {
+      let columnStatement = '(';
+      let valuesStatement = '($';
+      let values = [];
+      let count = 1;
+      for (const [key, value] of Object.entries(row)) {
+        columnStatement += `${key}, `;
+        valuesStatement += `${count}, $`;
+        values.push(value);
+        count++;
+      }
+      columnStatement = columnStatement.slice(0, -2) + ')';
+      valuesStatement = valuesStatement.slice(0, -3) + ')';
+      return pool.query(`INSERT INTO ${table} ${columnStatement} VALUES ${valuesStatement}`, values);
+    });
+    return Promise.all(queries);
   } else {
     return Promise.reject('Faulty call to function');
   }
