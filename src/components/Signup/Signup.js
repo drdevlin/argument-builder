@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import createUser from '../../services/createUser';
-import encrypted from '../../services/encrypted';
 // import './Signup.css';
 
 const Signup = () => {
@@ -26,8 +25,7 @@ const Signup = () => {
     if (!isConfirmed) setFeedback("Passwords don't match");
     const canSubmit = isValid && isConfirmed;
     if (canSubmit) {
-      const securePassword = await encrypted(password).forStorage;
-      const response = await createUser({ email, password: securePassword });
+      const response = await createUser({ email, password });
       setFeedback(response.statusText);
     }
   }

@@ -1,12 +1,13 @@
 const users = {
+  id: 'sting', //uuid
   email: 'string', //max length 48
-  password: 'string' //max length 48
+  password: 'string' //max length 161
 };
 
 const documents = {
   id: 'string', //uuid
   title: 'string', //max length 48
-  user_id: 'string' //fk users email
+  user_id: 'string' //fk users id
 }
 
 const theses = {
