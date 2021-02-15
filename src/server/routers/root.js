@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 // Mount routers
-const users = require('./users.js');
-const elements = require('./elements.js');
+const auth = require('./auth.js');
+const access = require('./access.js');
 
-router.use('/users', users);
-router.use('/elements', elements);
+router.use('/auth', auth);
+router.use('/access', access);
 
 module.exports = router;

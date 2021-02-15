@@ -5,7 +5,7 @@ const router = express.Router();
 const { sendResponse } = require('../services/generic.js');
 
 // Import router's services
-const { createNewUser } = require('../services/users.js');
+const { createNewUser } = require('../services/auth.js');
 
 // C
 router.post('/', createNewUser, sendResponse);

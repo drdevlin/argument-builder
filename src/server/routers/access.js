@@ -10,19 +10,19 @@ const {
   readElements,
   updateElements,
   deleteElements
-} = require('../services/elements.js');
+} = require('../services/access.js');
 
 
 // C
-router.post('/:table', createElements, sendResponse);
+router.post('/:user/:table', createElements, sendResponse);
 
 // R
-router.get('/:table', readElements, sendResponse);
+router.get('/:user/:table', readElements, sendResponse);
 
 // U
-router.put('/:table', updateElements, sendResponse);
+router.put('/:user/:table', updateElements, sendResponse);
 
 // D
-router.delete('/:table', deleteElements, sendResponse);
+router.delete('/:user/:table', deleteElements, sendResponse);
 
 module.exports = router;
