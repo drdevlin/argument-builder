@@ -1,7 +1,7 @@
 const db = require('../../db/db.js');
 
 const createNewUser = (req, res, next) => {
-  db.create('users', req.body)
+  db.create('users', [req.body])
     .then(resolution => {
       req.payload = resolution;
       res.status(201);

@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+const crypto = require('crypto');
 
 const forStorage = async (password) => {
   try {
@@ -36,4 +36,4 @@ const encrypted = (password) => {
   return { forStorage: forStorage(password), matches }
 }
 
-export default encrypted;
+module.exports = encrypted;

@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import encrypted from './encrypted';
+import encrypted from '../../services/encrypted.js';
 
 const createUser = async (user) => {
   try {

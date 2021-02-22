@@ -1,4 +1,4 @@
-import encrypted from './encrypted';
+const encrypted = require('./encrypted');
 
 describe('encrypted(password)', () => {
   describe('.forStorage', () => {

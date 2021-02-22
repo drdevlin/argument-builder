@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 // Import generic services
 const { sendResponse } = require('../services/generic.js');
@@ -8,7 +9,10 @@ const { sendResponse } = require('../services/generic.js');
 const { createNewUser } = require('../services/auth.js');
 
 // C
-router.post('/', createNewUser, sendResponse);
+router.post('/', passport.authenticate('local'), (req, res, next) => {
+  req.payload = req.user;
+  next();
+}, /*createNewUser,*/ sendResponse);
 
 // R
 
