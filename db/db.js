@@ -4,6 +4,12 @@ const { Pool } = require('pg');
 
 const pool = new Pool();
 
+/**
+ * Creates rows in the given table
+ * @param   {String}  table Name of table
+ * @param   {Array}   rows  Rows to create [ { |column|: |value|, ... }, ... ]
+ * @returns {Promise}       Resolves to an array of Result objects from node-postgres
+ */
 const create = (table, rows) => {
   if (table && rows) {
     const queries = rows.map(row => {
@@ -28,6 +34,12 @@ const create = (table, rows) => {
   
 };
 
+/**
+ * Returns the row that matches the identifier
+ * @param   {String}  table         Name of table
+ * @param   {Object}  rowIdentifier { |column|: |value to match| }
+ * @returns {Promise}               Returned row bound to |Result|.rows[0]
+ */
 const read = (table, rowIdentifier) => {
   if (table) {
     let [ identifierKey, identifierValue ] = Object.entries(rowIdentifier)[0];
@@ -40,6 +52,13 @@ const read = (table, rowIdentifier) => {
   }
 };
 
+/**
+ * Updates the row that matches the identifier with the given data
+ * @param   {String}  table         Name of the table
+ * @param   {Object}  rowIdentifier { |column|: |value to match| }
+ * @param   {Object}  data          { |column|: |value to update|, ... }
+ * @returns {Promise}               Resolves to a Result object from node-postgres
+ */
 const update = (table, rowIdentifier, data) => {
   if (table && rowIdentifier && data) {
     let [ identifierKey, identifierValue ] = Object.entries(rowIdentifier)[0];
@@ -59,6 +78,12 @@ const update = (table, rowIdentifier, data) => {
   }
 }
 
+/**
+ * Deletes the row that matches the identifier
+ * @param {String}    table         Name of table
+ * @param {Object}    rowIdentifier { |column|: |value to match| }
+ * @returns {Promise}               Resolves to a Result object from node-postgres
+ */
 const del = (table, rowIdentifier) => {
   if (table && rowIdentifier) {
     let [ identifierKey, identifierValue ] = Object.entries(rowIdentifier)[0];
