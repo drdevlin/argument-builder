@@ -6,13 +6,17 @@ const passport = require('passport');
 const { sendResponse } = require('../services/generic.js');
 
 // Import router's services
-const { createNewUser } = require('../services/auth.js');
+const { createNewUser, startSession } = require('../services/auth.js');
 
 // C
 router.post('/', passport.authenticate('local'), (req, res, next) => {
   req.payload = req.user;
   next();
-}, /*createNewUser,*/ sendResponse);
+}, sendResponse);
+
+router.post('/login', passport.authenticate('local'), startSession, sendResponse);
+
+router.post('/signup', createNewUser, sendResponse);
 
 // R
 
