@@ -1,3 +1,8 @@
+/**
+ * Database CRUD module
+ * @module
+ */
+
 require('./env-config.js')();
 const { Pool } = require('pg');
 //const schemas = require('./schemas.js');
@@ -5,12 +10,13 @@ const { Pool } = require('pg');
 const pool = new Pool();
 
 /**
- * Creates rows in the given table
- * @param   {String}  table Name of table
- * @param   {Array}   rows  Rows to create [ { |column|: |value|, ... }, ... ]
- * @returns {Promise}       Resolves to an array of Result objects from node-postgres
+ * CREATES rows in the given table
+ * @param   {string}            table Name of table
+ * @param   {(Object|Object[])} rows  Rows to create { [column]: [value], ... }
+ * @returns {Promise.<Result[]>}      An array of Result objects from node-postgres
  */
-const create = (table, rows) => {
+exports.create = (table, rows) => {
+  if (typeof rows === 'object') rows = [rows];
   if (table && rows) {
     const queries = rows.map(row => {
       let columnStatement = '(';
@@ -35,12 +41,12 @@ const create = (table, rows) => {
 };
 
 /**
- * Returns the row that matches the identifier
- * @param   {String}  table         Name of table
- * @param   {Object}  rowIdentifier { |column|: |value to match| }
- * @returns {Promise}               Returned row bound to |Result|.rows[0]
+ * READS the row that matches the identifier
+ * @param   {string} table         Name of table
+ * @param   {Object} rowIdentifier { [column]: [value to match] }
+ * @returns {Promise.<Result>}     The matched row. Found at Result.rows[0]
  */
-const read = (table, rowIdentifier) => {
+exports.read = (table, rowIdentifier) => {
   if (table) {
     let [ identifierKey, identifierValue ] = Object.entries(rowIdentifier)[0];
     if (typeof identifierValue === 'string') identifierValue = `'${identifierValue}'`;
@@ -53,13 +59,13 @@ const read = (table, rowIdentifier) => {
 };
 
 /**
- * Updates the row that matches the identifier with the given data
- * @param   {String}  table         Name of the table
- * @param   {Object}  rowIdentifier { |column|: |value to match| }
- * @param   {Object}  data          { |column|: |value to update|, ... }
- * @returns {Promise}               Resolves to a Result object from node-postgres
+ * UPDATES the row that matches the identifier with the given data
+ * @param   {string} table         Name of the table
+ * @param   {Object} rowIdentifier { [column]: [value to match] }
+ * @param   {Object} data          { [column]: [value to update], ... }
+ * @returns {Promise.<Result>}     A Result object from node-postgres
  */
-const update = (table, rowIdentifier, data) => {
+exports.update = (table, rowIdentifier, data) => {
   if (table && rowIdentifier && data) {
     let [ identifierKey, identifierValue ] = Object.entries(rowIdentifier)[0];
     if (typeof identifierValue === 'string') identifierValue = `'${identifierValue}'`;
@@ -79,12 +85,12 @@ const update = (table, rowIdentifier, data) => {
 }
 
 /**
- * Deletes the row that matches the identifier
- * @param {String}    table         Name of table
- * @param {Object}    rowIdentifier { |column|: |value to match| }
- * @returns {Promise}               Resolves to a Result object from node-postgres
+ * DELETES the row that matches the identifier
+ * @param   {string} table         Name of table
+ * @param   {Object} rowIdentifier { [column]: [value to match] }
+ * @returns {Promise<Result>}      A Result object from node-postgres
  */
-const del = (table, rowIdentifier) => {
+exports.del = (table, rowIdentifier) => {
   if (table && rowIdentifier) {
     let [ identifierKey, identifierValue ] = Object.entries(rowIdentifier)[0];
     if (typeof identifierValue === 'string') identifierValue = `'${identifierValue}'`;
@@ -95,6 +101,3 @@ const del = (table, rowIdentifier) => {
     return Promise.reject('Faulty call to function');
   }
 }
-
-
-module.exports = { create, read, update, del };
