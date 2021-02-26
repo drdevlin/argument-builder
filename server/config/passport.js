@@ -5,24 +5,26 @@ const encrypted = require('../../services/encrypted.js');
 
 const options = { usernameField: 'id', session: false };
 
-const signin = (id, password, done) => {
+const authenticate = (id, password, done) => {
+  let user;
   db.read('users', { id })
     .then(result => {
-      const user = result.rows[0];
-      encrypted(password).matches(user.password).then(matches => {
-        if (matches) {
-          return done(null, { id: user.id, session_id: user.session_id });
-        } else {
-          return done(null, false, { message: 'Incorrect password' });
-        }
-      }); 
+      user = result.rows[0];
+      return encrypted(password).matches(user.password)
     })
+    .then(matches => {
+      if (matches) {
+        return done(null, { id: user.id, session_id: user.session_id });
+      } else {
+        return done(null, false, { message: 'Incorrect password' });
+      }
+    }) 
     .catch(reason => {
       return done(null, false, { message: reason });
   });
 }
 
-module.exports = () => passport.use(new LocalStrategy(options, signin));
+module.exports = () => passport.use(new LocalStrategy(options, authenticate));
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

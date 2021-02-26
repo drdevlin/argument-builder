@@ -1,8 +1,8 @@
 const db = require('../../db/db.js');
 
-const createElements = (req, res, next) => {
+exports.createElements = (req, res, next) => {
   const table = req.params.table;
-  const rows = req.body;
+  const rows = req.body.rows;
   db.create(table, rows)
     .then(resolution => {
       req.payload = resolution;
@@ -16,7 +16,7 @@ const createElements = (req, res, next) => {
   });
 };
 
-const readElements = (req, res, next) => {
+exports.readElements = (req, res, next) => {
   const table = req.params.table;
   const rowIdentifier = req.query;
   db.read(table, rowIdentifier)
@@ -32,10 +32,10 @@ const readElements = (req, res, next) => {
   });
 };
 
-const updateElements = (req, res, next) => {
+exports.updateElements = (req, res, next) => {
   const table = req.params.table;
   const rowIdentifier = req.query;
-  const data = req.body;
+  const data = req.body.data;
   db.update(table, rowIdentifier, data)
     .then(resolution => {
       req.payload = resolution;
@@ -49,7 +49,7 @@ const updateElements = (req, res, next) => {
   });
 };
 
-const deleteElements = (req, res, next) => {
+exports.deleteElements = (req, res, next) => {
   const table = req.params.table;
   const rowIdentifier = req.query;
   db.del(table, rowIdentifier)
@@ -63,11 +63,4 @@ const deleteElements = (req, res, next) => {
       res.status(500);
       next();
   });
-};
-
-module.exports = { 
-  createElements,
-  readElements,
-  updateElements,
-  deleteElements
 };
