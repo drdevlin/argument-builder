@@ -11,4 +11,5 @@ Converts answers to questions into a first draft argument reconstruction. Design
 
 ## Status
 
-In progress.
+[Database module](db/db.js) and [API endpoints](server/routers/root.js) are fully functional but not production-grade.
+Front-end client is still very much in progress.
