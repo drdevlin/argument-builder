@@ -26,7 +26,14 @@ const Signup = () => {
     const canSubmit = isValid && isConfirmed;
     if (canSubmit) {
       const response = await createUser({ email, password });
-      setFeedback(response.statusText);
+      let status;
+      if (response.ok) {
+        const body = await response.json();
+        status = body.id;
+      } else {
+        status = response.statusText;
+      }
+      setFeedback(status);
     }
   }
 
