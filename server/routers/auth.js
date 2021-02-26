@@ -8,7 +8,6 @@ const { sendResponse } = require('../services/generic.js');
 // Import router's services
 const { createNewUser, startSession } = require('../services/auth.js');
 
-// C
 router.post('/', passport.authenticate('local'), (req, res, next) => {
   req.payload = req.user;
   next();
@@ -16,13 +15,7 @@ router.post('/', passport.authenticate('local'), (req, res, next) => {
 
 router.post('/login', passport.authenticate('local'), startSession, sendResponse);
 
-router.post('/signup', createNewUser, sendResponse);
-
-// R
-
-// U
-
-// D
+router.post('/signup', createNewUser, passport.authenticate('local'), startSession, sendResponse);
 
 module.exports = router;
 
