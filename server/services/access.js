@@ -20,8 +20,9 @@ exports.readElements = (req, res, next) => {
   const table = req.params.table;
   const rowIdentifier = req.query;
   db.read(table, rowIdentifier)
-    .then(resolution => {
-      req.payload = resolution;
+    .then(result => {
+      if (!result.rowCount) throw new Error('Not found');
+      req.payload = result.rows[0];
       res.status(201);
       next();
     })

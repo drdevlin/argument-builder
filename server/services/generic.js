@@ -6,14 +6,15 @@ exports.sendResponse = (req, res) => {
 }
 
 exports.authorize = (req, res, next) => {
-  if (!req.params.user || !req.body.session_id) {
+  if (!req.params.user || !(req.body.session_id || req.query.s)) {
     res.status(401);
     res.send();
   }
+  const session_id = (req.body.session_id) ? req.body.session_id : req.query.s;
   db.read('users', { id: req.params.user })
     .then(result => {
       const user = result.rows[0];
-      if (user.session_id === req.body.session_id) {
+      if (user.session_id === session_id) {
         next();
       } else {
         res.status(401);
