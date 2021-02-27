@@ -7,8 +7,9 @@ export const userSlice = createSlice({
     session_id: 'uuid'
   },
   reducers: {
-    updateIdAndSession: (state, action) => {
-      state = action.payload;
+    updateIdAndSession: (state, { payload: { id, session_id }}) => {
+      state.id = id;
+      state.session_id = session_id;
     }
   }
 });

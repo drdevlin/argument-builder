@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateIdAndSession } from '../../store/userSlice';
 import createUser from '../../services/createUser';
 // import './Signup.css';
 
@@ -10,6 +12,8 @@ const Signup = () => {
   });
   const { email, password, confirmPassword } = fields;
   const [ feedback, setFeedback ] = useState('');
+
+  const dispatch = useDispatch();
   
   const handleFieldChange = event => {
     const name = event.target.name;
@@ -29,6 +33,7 @@ const Signup = () => {
       let status;
       if (response.ok) {
         const body = await response.json();
+        dispatch(updateIdAndSession(body));
         status = body.id;
       } else {
         status = response.statusText;
