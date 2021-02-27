@@ -3,11 +3,11 @@ const LocalStrategy = require('passport-local').Strategy;
 const db = require('../../db/db.js');
 const encrypted = require('../../services/encrypted.js');
 
-const options = { usernameField: 'id', session: false };
+const options = { usernameField: 'email', session: false };
 
-const authenticate = (id, password, done) => {
+const authenticate = (email, password, done) => {
   let user;
-  db.read('users', { id })
+  db.read('users', { email })
     .then(result => {
       user = result.rows[0];
       return encrypted(password).matches(user.password)
