@@ -22,7 +22,11 @@ exports.readElements = (req, res, next) => {
   db.read(table, rowIdentifier)
     .then(result => {
       if (!result.rowCount) throw new Error('Not found');
-      req.payload = result.rows[0];
+      if (result.rowCount === 1) {
+        req.payload = result.rows[0];
+      } else {
+        req.payload = result.rows;
+      }
       res.status(201);
       next();
     })

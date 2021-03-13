@@ -1,31 +1,21 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateIdAndTitle } from './documentSlice';
-import loadDocument from '../../services/loadDocument';
+import { loadDocument } from './documentSlice';
 
 const Document = () => {
   const [ title, setTitle ] = useState('');
-  const [ feedback, setFeedback ] = useState('');
 
   const user = useSelector(state => state.user);
+  const feedback = useSelector(state => state.document.fetchStatus);
   const dispatch = useDispatch();
   
   const handleTitleChange = ({ target: { value }}) => {
     setTitle(value);
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
       event.preventDefault();
-      const response = await loadDocument(user, title);
-      let status;
-      if (response.ok) {
-        const body = await response.json();
-        dispatch(updateIdAndTitle(body));
-        status = body.id;
-      } else {
-        status = response.statusText;
-      }
-      setFeedback(status);
+      dispatch(loadDocument({ user, title }));
   }
 
   return (
