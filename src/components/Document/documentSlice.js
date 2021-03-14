@@ -14,14 +14,27 @@ export const documentSlice = createSlice({
   initialState: {
     id: 'uuid',
     title: '',
-    thesis: '',
+    thesis: {
+      id: 'uuid',
+      thesis: ''
+    },
     supportingClaims: [
       {
         id: 'uuid',
         claim: '',
-        clarifyingSentences: [],
-        examples: [],
-        linkingSentence: ''
+        position: 0,
+        clarifyingSentences: [{
+          id: 'uuid',
+          sentence: ''
+        }],
+        examples: [{
+          id: 'uuid',
+          example: ''
+        }],
+        linkingSentence: {
+          id: 'uuid',
+          sentence: ''
+        }
       }
     ],
     fetchStatus: 'idle',

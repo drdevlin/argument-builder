@@ -28,7 +28,7 @@ export const makeSupportingClaimObject = (unformattedDocument, index) => {
       ? [ unformattedDocument[3] ]
       : [];
   }
-  const extractSentences = clarifyingSentences.map(({ sentence }) => sentence);
+  const extractSentences = clarifyingSentences.map(({ id, sentence }) => { return { id, sentence } });
   clarifyingSentences = extractSentences;
 
   // examples
@@ -39,16 +39,17 @@ export const makeSupportingClaimObject = (unformattedDocument, index) => {
       ? [ unformattedDocument[4] ]
       : [];
   }
-  const extractExamples = examples.map(({ example }) => example);
+  const extractExamples = examples.map(({ id, example }) => { return { id, example }});
   examples = extractExamples;
 
   // linking sentence
   if (Array.isArray(unformattedDocument[5])) {
-    linkingSentence = unformattedDocument[5].find(({ supporting_claim_id }) => supporting_claim_id === id).sentence;
+    const foundSentence = unformattedDocument[5].find(({ supporting_claim_id }) => supporting_claim_id === id)
+    linkingSentence = { id: foundSentence.id, sentence: foundSentence.sentence };
   } else {
     linkingSentence = (unformattedDocument[5].hasOwnProperty('supporting_claim_id') && unformattedDocument[5].supporting_claim_id === id)
-      ? unformattedDocument[5].sentence
-      : '';
+      ? { id: unformattedDocument[5].id, sentence: unformattedDocument[5].sentence }
+      : {};
   }
   return { id, claim, position, clarifyingSentences, examples, linkingSentence };
 }
@@ -56,7 +57,7 @@ export const makeSupportingClaimObject = (unformattedDocument, index) => {
 export const makeDocumentObject = (unformattedDocument) => {
   const id = unformattedDocument[0].id;
   const title = unformattedDocument[0].title;
-  const thesis = unformattedDocument[2].thesis;
+  const thesis = { id: unformattedDocument[2].id, thesis: unformattedDocument[2].thesis };
   let supportingClaims;
   if (Array.isArray(unformattedDocument[1])) {
     supportingClaims = unformattedDocument[1].map((supportingClaim, index) => makeSupportingClaimObject(unformattedDocument, index));
