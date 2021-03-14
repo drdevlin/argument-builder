@@ -18,7 +18,8 @@ exports.createElements = (req, res, next) => {
 
 exports.readElements = (req, res, next) => {
   const table = req.params.table;
-  const rowIdentifier = req.query;
+  const rowIdentifier = { ...req.query };
+  if (rowIdentifier.hasOwnProperty('s')) delete rowIdentifier.s;
   db.read(table, rowIdentifier)
     .then(result => {
       if (!result.rowCount) throw new Error('Not found');
@@ -32,40 +33,56 @@ exports.readElements = (req, res, next) => {
     })
     .catch(rejection => {
       req.payload = rejection;
-      res.status(500);
+      if (rejection.message === 'Not found') {
+        res.status(404);
+      } else {
+        res.status(500);
+      }
       next();
   });
 };
 
 exports.updateElements = (req, res, next) => {
   const table = req.params.table;
-  const rowIdentifier = req.query;
+  const rowIdentifier = { ...req.query };
+  if (rowIdentifier.hasOwnProperty('s')) delete rowIdentifier.s;
   const data = req.body.data;
   db.update(table, rowIdentifier, data)
     .then(resolution => {
+      if (!resolution.rowCount) throw new Error('Not found');
       req.payload = resolution;
       res.status(201);
       next();
     })
     .catch(rejection => {
       req.payload = rejection;
-      res.status(500);
+      if (rejection.message === 'Not found') {
+        res.status(404);
+      } else {
+        res.status(500);
+      }
       next();
   });
 };
 
 exports.deleteElements = (req, res, next) => {
   const table = req.params.table;
-  const rowIdentifier = req.query;
+  const rowIdentifier = { ...req.query };
+  if (rowIdentifier.hasOwnProperty('s')) delete rowIdentifier.s;
   db.del(table, rowIdentifier)
     .then(resolution => {
+      if (!resolution.rowCount) throw new Error('Not found');
       req.payload = resolution;
       res.status(201);
       next();
     })
     .catch(rejection => {
       req.payload = rejection;
-      res.status(500);
+      if (rejection.message === 'Not found') {
+        res.status(404);
+      } else {
+        res.status(500);
+      }
       next();
   });
 };
