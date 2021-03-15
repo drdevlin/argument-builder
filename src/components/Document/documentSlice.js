@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import fetchFullDocument from '../../services/fetchFullDocument.js';
+import updateStore from '../../services/updateStore.js';
+import saveEntryToDb from '../../services/saveEntryToDb.js';
 
 export const loadDocument = createAsyncThunk('document/loadDocument', async ({ user, title }) => {
   try {
@@ -9,30 +11,43 @@ export const loadDocument = createAsyncThunk('document/loadDocument', async ({ u
   }
 });
 
+export const saveEntry = createAsyncThunk('document/saveEntry', async (args) => {
+  try {
+    const { user, type, entry, documentId } = args;
+    if (args.hasOwnProperty('supportingClaimId')) {
+      return saveEntryToDb(user, type, entry, documentId, args.supportingClaimId);
+    } else {
+      return saveEntryToDb(user, type, entry, documentId);
+    }
+  } catch (err) {
+    return Promise.reject(err.message ? err.message : 'Something went wrong.');
+  }
+})
+
 export const documentSlice = createSlice({
   name: 'document',
   initialState: {
-    id: 'uuid',
+    id: '',
     title: '',
     thesis: {
-      id: 'uuid',
+      id: '',
       thesis: ''
     },
     supportingClaims: [
       {
-        id: 'uuid',
+        id: '',
         claim: '',
         position: 0,
         clarifyingSentences: [{
-          id: 'uuid',
+          id: '',
           sentence: ''
         }],
         examples: [{
-          id: 'uuid',
+          id: '',
           example: ''
         }],
         linkingSentence: {
-          id: 'uuid',
+          id: '',
           sentence: ''
         }
       }
@@ -56,6 +71,18 @@ export const documentSlice = createSlice({
     [loadDocument.rejected]: (state, action) => {
       state.fetchStatus = 'failed';
       state.fetchError = action.error.message;
+    },
+    [saveEntry.pending]: (state, action) => {
+      state.fetchStatus = 'loading';
+    },
+    [saveEntry.fulfilled]: (state, action) => {
+      const update = updateStore(action.payload);
+      update(state, action);
+      state.fetchStatus = 'succeeded';
+    },
+    [saveEntry.rejected]: (state, action) => {
+      state.fetchStatus = 'failed';
+      state.fetchError = action.error.message;
     }
   },
 });
@@ -63,4 +90,5 @@ export const documentSlice = createSlice({
 export default documentSlice.reducer;
 
 export const selectDocumentTitle = state => state.document.title;
+export const selectDocumentId = state => state.document.id;
 export const selectThesis = state => state.document.thesis;
