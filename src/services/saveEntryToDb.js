@@ -14,7 +14,8 @@ const saveEntry = async (user, type, entry, documentId, supportingClaimId) => {
         body: JSON.stringify({ data: entry })
       });
       if (putResponse.ok) {
-        return entry;
+        entry.id = entryId;
+        return { [type]: entry };
       } else {
         throw new Error(putResponse.statusText);
       }
@@ -26,7 +27,7 @@ const saveEntry = async (user, type, entry, documentId, supportingClaimId) => {
         body: JSON.stringify({ rows: entry })
       });
       if (postResponse.ok) {
-        return entry;
+        return { [type]: entry };
       } else {
         throw new Error(postResponse.statusText);
       }
