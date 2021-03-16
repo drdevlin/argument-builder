@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    id: 'uuid',
-    session_id: 'uuid'
+    id: '',
+    session_id: ''
   },
   reducers: {
     updateIdAndSession: (state, { payload: { id, session_id }}) => {
