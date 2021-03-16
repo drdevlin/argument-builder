@@ -7,6 +7,7 @@ import Signup from '../Signup/Signup';
 import Login from '../Login/Login';
 import Document from '../Document/Document';
 import Thesis from '../Thesis/Thesis';
+import SupportingClaims from '../SupportingClaims/SupportingClaims';
 
 function App() {
   const [ loginSignupToggle, setLoginSignupToggle ] = useState(true);
@@ -16,6 +17,7 @@ function App() {
   const loggedIn = Boolean(userId);
 
   const documentId = useSelector(selectDocumentId);
+  const thesisId = useSelector(state => state.document.thesis.id);
 
   const handleToggle = () => {
     setLoginSignupToggle(!loginSignupToggle);
@@ -29,6 +31,7 @@ function App() {
       { !loggedIn && <button onClick={handleToggle}>{buttonText}</button>}
       { loggedIn && <Document /> }
       { Boolean(documentId) && <Thesis /> }
+      { Boolean(thesisId) && <SupportingClaims /> }
     </div>
   );
 }

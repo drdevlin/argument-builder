@@ -92,3 +92,4 @@ export default documentSlice.reducer;
 export const selectDocumentTitle = state => state.document.title;
 export const selectDocumentId = state => state.document.id;
 export const selectThesis = state => state.document.thesis;
+export const selectSupportingClaims = state => state.document.supportingClaims;
