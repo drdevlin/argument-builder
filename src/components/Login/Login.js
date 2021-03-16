@@ -39,7 +39,7 @@ const Login = () => {
 
   return (
     <div className='Login'>
-      <h1>Login</h1>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor='email'>Email:</label>
         <input autoFocus type='email' id='email' name='email' value={email} onChange={handleFieldChange} required />

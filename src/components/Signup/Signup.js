@@ -44,7 +44,7 @@ const Signup = () => {
 
   return (
     <div className='Signup'>
-      <h1>Signup</h1>
+      <h2>Signup</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor='email'>Email:</label>
         <input autoFocus type='email' id='email' name='email' value={email} onChange={handleFieldChange} required />

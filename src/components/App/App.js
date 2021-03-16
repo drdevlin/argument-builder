@@ -23,6 +23,7 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Argument Builder</h1>
       { !loggedIn && loginSignupToggle && <Login /> }
       { !loggedIn && !loginSignupToggle && <Signup /> }
       { !loggedIn && <button onClick={handleToggle}>{buttonText}</button>}

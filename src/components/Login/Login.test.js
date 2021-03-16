@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../store/store';
-import App from './App';
+import Login from './Login';
 
-describe('<App />', () => {
+describe('<Login />', () => {
   it('renders', () => {
-    render(<Provider store={store}><App /></Provider>);
+    render(<Provider store={store}><Login /></Provider>);
     screen.debug()
-    const text = screen.getAllByText(/argument/i);
+    const text = screen.getAllByText(/login/i);
     expect(text).toBeTruthy();
   });
 });
