@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ClarifyingSentences from '../ClarifyingSentences/ClarifyingSentences';
 import { saveEntry, selectDocumentId, selectThesis } from '../Document/documentSlice';
 import Words from '../Words/Words';
 
@@ -32,7 +33,8 @@ const SupportingClaim = (props) => {
         <input type='text' id={id} name={id} value={claim} onChange={handleClaimChange} required />
         <button type='submit' value='submit'>Save Claim</button>
       </form>
-      <Words claim={claim} />
+      <Words claim={claim} claimId={id} />
+      <ClarifyingSentences claimId={id} />
     </div>
   )
 }
