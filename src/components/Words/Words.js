@@ -7,7 +7,7 @@ const Words = (props) => {
 
   return (
     <div className='Words'>
-      <h2>Analyze these words:</h2>
+      <h2>What is the quality of these concepts?</h2>
       { words.map((word, index, array) => <Word key={'word-' + index} word={word} index={index} arrayLength={array.length} claimId={claimId} />) } 
     </div>
   )

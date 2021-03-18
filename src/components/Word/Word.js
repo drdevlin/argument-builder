@@ -20,6 +20,7 @@ const Word = ({ word, index, arrayLength, claimId }) => {
       <option value='abstract'>Abstract</option>
       <option value='general'>General</option>
       <option value='ambiguous'>Ambiguous</option>
+      <option value='technical'>Technical</option>
       <option value='precise'>Precise</option>
       <option value='particular'>Particular</option>
       <option value='specific'>Specific</option>

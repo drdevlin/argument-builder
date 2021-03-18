@@ -3,7 +3,7 @@ import ClarifyingSentence from "../ClarifyingSentence/ClarifyingSentence";
 
 const ClarifyingSentences = ({ claimId }) => {
   const wordsFromStore = useSelector(state => state.words[claimId]);
-  const toKeep = [ 'vague', 'abstract', 'general', 'ambiguous' ]
+  const toKeep = [ 'vague', 'abstract', 'general', 'ambiguous', 'technical' ];
   const words = wordsFromStore.filter(word => toKeep.some(quality => quality === word.quality));
 
 
