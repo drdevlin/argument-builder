@@ -1,9 +1,11 @@
 import { useState } from "react";
+import clarifyingQuestion from "../../services/clarifyingQuestion";
 
 const ClarifyingSentence = ({ word }) => {
   const [ sentence, setSentence ] = useState('');
   
-  const id = word + Math.floor(Math.random() * 1000);
+  const id = word.word + Math.floor(Math.random() * 1000);
+  const question = clarifyingQuestion(word);
 
   const handleSentenceChange = (event) => {
     setSentence(event.target.value);
@@ -15,7 +17,7 @@ const ClarifyingSentence = ({ word }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-        <label htmlFor={id}>Write a sentence that clarifies &quot;{word}&quot;.</label>
+        <label htmlFor={id}>{question}</label>
         <input type='text' id={id} name={id} value={sentence} onChange={handleSentenceChange} required />
         <button type='submit' value='submit'>Save Sentence</button>
     </form>
