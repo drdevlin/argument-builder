@@ -4,14 +4,14 @@ import ClarifyingSentences from '../ClarifyingSentences/ClarifyingSentences';
 import { saveEntry, selectDocumentId, selectThesis } from '../Document/documentSlice';
 import Words from '../Words/Words';
 
-const SupportingClaim = (props) => {
-  const [ claim, setClaim ] = useState(props.supportingClaim.claim);
+const SupportingClaim = ({ supportingClaim }) => {
+  const [ claim, setClaim ] = useState(supportingClaim.claim);
 
   const user = useSelector(state => state.user);
   const thesis = useSelector(selectThesis).thesis;
 
-  const id = props.supportingClaim.id;
-  const position = props.supportingClaim.position;
+  const id = supportingClaim.id;
+  const position = supportingClaim.position;
   const documentId = useSelector(selectDocumentId);
   const dispatch = useDispatch();
   
@@ -33,8 +33,8 @@ const SupportingClaim = (props) => {
         <input type='text' id={id} name={id} value={claim} onChange={handleClaimChange} required />
         <button type='submit' value='submit'>Save Claim</button>
       </form>
-      <Words claim={claim} claimId={id} />
-      <ClarifyingSentences claimId={id} />
+      <Words supportingClaim={supportingClaim} />
+      <ClarifyingSentences supportingClaim={supportingClaim} />
     </div>
   )
 }

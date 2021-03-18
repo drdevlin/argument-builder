@@ -40,11 +40,13 @@ export const documentSlice = createSlice({
         position: 0,
         clarifyingSentences: [{
           id: '',
-          sentence: ''
+          sentence: '',
+          word: ''
         }],
         examples: [{
           id: '',
-          example: ''
+          example: '',
+          word: ''
         }],
         linkingSentence: {
           id: '',

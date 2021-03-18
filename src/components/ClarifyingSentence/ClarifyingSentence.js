@@ -1,10 +1,13 @@
 import { useState } from "react";
 import clarifyingQuestion from "../../services/clarifyingQuestion";
 
-const ClarifyingSentence = ({ word }) => {
-  const [ sentence, setSentence ] = useState('');
+const ClarifyingSentence = ({ word, supportingClaim }) => {
+  const clarifyingSentences = supportingClaim.clarifyingSentences;
+  const storedClarifyingSentence = clarifyingSentences.find(el => el.word === word.word);
+  const storedSentence = (storedClarifyingSentence) ? storedClarifyingSentence.sentence : '';
+  const [ sentence, setSentence ] = useState(storedSentence);
   
-  const id = word.word + Math.floor(Math.random() * 1000);
+  const id = (storedClarifyingSentence) ? storedClarifyingSentence.id : word.word + Math.floor(Math.random() * 1000);
   const question = clarifyingQuestion(word);
 
   const handleSentenceChange = (event) => {

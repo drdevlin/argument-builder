@@ -28,7 +28,7 @@ export const makeSupportingClaimObject = (unformattedDocument, index) => {
       ? [ unformattedDocument[3] ]
       : [];
   }
-  const extractSentences = clarifyingSentences.map(({ id, sentence }) => { return { id, sentence } });
+  const extractSentences = clarifyingSentences.map(({ id, sentence, word }) => { return { id, sentence, word } });
   clarifyingSentences = extractSentences;
 
   // examples
@@ -39,7 +39,7 @@ export const makeSupportingClaimObject = (unformattedDocument, index) => {
       ? [ unformattedDocument[4] ]
       : [];
   }
-  const extractExamples = examples.map(({ id, example }) => { return { id, example }});
+  const extractExamples = examples.map(({ id, example, word }) => { return { id, example, word }});
   examples = extractExamples;
 
   // linking sentence
